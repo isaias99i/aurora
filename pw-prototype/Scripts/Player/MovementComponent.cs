@@ -2,21 +2,30 @@ using Godot;
 
 /// <summary>
 /// Responsável pela movimentação do personagem: WASD relativo à câmera,
-/// gravidade, pulo e giro suave do mesh visual.
+/// gravidade, pulo, giro suave do mesh visual, aceleração e desaceleração independentes.
 /// </summary>
 public partial class MovementComponent : Node
 {
-    [ExportGroup("Movimento")]
+    [ExportGroup("Velocidade")]
     [Export(PropertyHint.Range, "0.1,20,0.1")]
     public float Speed { get; set; } = 6.0f;
 
-    [Export(PropertyHint.Range, "1,100,0.5")]
+    /// <summary>Taxa de aceleração ao iniciar o movimento.</summary>
+    [Export(PropertyHint.Range, "1,200,0.5")]
     public float Acceleration { get; set; } = 30.0f;
 
+    /// <summary>Taxa de frenagem ao soltar as teclas. Independente da aceleração.</summary>
+    [Export(PropertyHint.Range, "1,200,0.5")]
+    public float Deceleration { get; set; } = 45.0f;
+
+    [ExportGroup("Pulo")]
     [Export(PropertyHint.Range, "0.1,15,0.1")]
     public float JumpVelocity { get; set; } = 6.0f;
 
-    private const float VisualTurnSpeed = 12.0f;
+    [ExportGroup("Rotação")]
+    /// <summary>Velocidade com que o mesh visual gira para a direção de movimento.</summary>
+    [Export(PropertyHint.Range, "1,30,0.5")]
+    public float RotationSpeed { get; set; } = 12.0f;
 
     private CharacterBody3D _body;
     private Node3D _visual;
@@ -40,7 +49,7 @@ public partial class MovementComponent : Node
     {
         bool controlsActive = Input.MouseMode == Input.MouseModeEnum.Captured;
         Vector2 input = controlsActive
-            ? Input.GetVector("move_left", "move_right", "move_forward", "move_back")
+            ? Input.GetVector("MoveLeft", "MoveRight", "MoveForward", "MoveBackward")
             : Vector2.Zero;
 
         Vector3 direction = ComputeDirection(input);
@@ -66,11 +75,19 @@ public partial class MovementComponent : Node
         return dir.Normalized() * input.Length();
     }
 
+    /// <summary>
+    /// Aplica aceleração ao iniciar o movimento e desaceleração ao soltar as teclas.
+    /// Usa <see cref="Acceleration"/> ao avançar e <see cref="Deceleration"/> ao frear.
+    /// </summary>
     private void ApplyHorizontalVelocity(Vector3 direction, float delta)
     {
         Vector3 velocity = _body.Velocity;
-        Vector2 horizontal = new Vector2(velocity.X, velocity.Z).MoveToward(
-            new Vector2(direction.X, direction.Z) * Speed, Acceleration * delta);
+        Vector2 current = new Vector2(velocity.X, velocity.Z);
+        Vector2 target = new Vector2(direction.X, direction.Z) * Speed;
+
+        float rate = direction.IsZeroApprox() ? Deceleration : Acceleration;
+        Vector2 horizontal = current.MoveToward(target, rate * delta);
+
         velocity.X = horizontal.X;
         velocity.Z = horizontal.Y;
         _body.Velocity = velocity;
@@ -91,7 +108,8 @@ public partial class MovementComponent : Node
     }
 
     /// <summary>
-    /// Gira suavemente o mesh do personagem na direção do deslocamento.
+    /// Gira suavemente o mesh do personagem na direção do deslocamento usando
+    /// interpolação angular com decaimento exponencial independente de framerate.
     /// </summary>
     private void RotateVisual(Vector3 direction, float delta)
     {
@@ -101,6 +119,6 @@ public partial class MovementComponent : Node
         float targetYaw = Mathf.Atan2(-localDir.X, -localDir.Z);
         _visual.Rotation = new Vector3(0.0f,
             Mathf.LerpAngle(_visual.Rotation.Y, targetYaw,
-                1.0f - Mathf.Exp(-VisualTurnSpeed * delta)), 0.0f);
+                1.0f - Mathf.Exp(-RotationSpeed * delta)), 0.0f);
     }
 }
