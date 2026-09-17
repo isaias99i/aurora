@@ -1,0 +1,296 @@
+[gd_scene load_steps=24 format=3]
+
+[ext_resource type="Material" path="res://Assets/Environment/Buildings/M_VermilionWood.tres" id="1_vermilion"]
+[ext_resource type="Material" path="res://Assets/Environment/Buildings/M_DarkTimber.tres" id="2_timber"]
+[ext_resource type="Material" path="res://Assets/Environment/Buildings/M_OrientalRoof.tres" id="3_roof"]
+[ext_resource type="Material" path="res://Assets/Environment/Buildings/M_StonePlatform.tres" id="4_stone"]
+[ext_resource type="Material" path="res://Assets/Environment/Buildings/M_Jade.tres" id="5_jade"]
+[ext_resource type="Material" path="res://Assets/Environment/Terrain/M_StonePath.tres" id="6_path"]
+
+[sub_resource type="CylinderMesh" id="Mesh_PlazaFloor"]
+material = ExtResource("4_stone")
+top_radius = 9.0
+bottom_radius = 9.2
+height = 0.2
+radial_segments = 16
+
+[sub_resource type="CylinderShape3D" id="Shape_PlazaFloor"]
+height = 0.2
+radius = 9.2
+
+[sub_resource type="TorusMesh" id="Mesh_PlazaJadeRing"]
+material = ExtResource("5_jade")
+inner_radius = 8.6
+outer_radius = 9.2
+rings = 16
+ring_segments = 8
+
+[sub_resource type="CylinderMesh" id="Mesh_AltarBase"]
+material = ExtResource("4_stone")
+top_radius = 1.8
+bottom_radius = 2.2
+height = 0.6
+radial_segments = 8
+
+[sub_resource type="CylinderShape3D" id="Shape_AltarBase"]
+height = 0.6
+radius = 2.2
+
+[sub_resource type="CylinderMesh" id="Mesh_DingVessel"]
+material = ExtResource("5_jade")
+top_radius = 1.2
+bottom_radius = 0.8
+height = 1.4
+radial_segments = 12
+
+[sub_resource type="CylinderShape3D" id="Shape_DingVessel"]
+height = 1.4
+radius = 1.2
+
+[sub_resource type="BoxMesh" id="Mesh_GatePillar"]
+material = ExtResource("1_vermilion")
+size = Vector3(0.7, 5.5, 0.7)
+
+[sub_resource type="BoxShape3D" id="Shape_GatePillar"]
+size = Vector3(0.7, 5.5, 0.7)
+
+[sub_resource type="BoxMesh" id="Mesh_GateBeam"]
+material = ExtResource("2_timber")
+size = Vector3(8.0, 0.6, 0.9)
+
+[sub_resource type="PrismMesh" id="Mesh_GateRoof"]
+material = ExtResource("3_roof")
+left_to_right = 0.5
+size = Vector3(9.2, 1.4, 2.2)
+
+[sub_resource type="BoxMesh" id="Mesh_PavilionBase"]
+material = ExtResource("4_stone")
+size = Vector3(7.0, 0.6, 7.0)
+
+[sub_resource type="BoxShape3D" id="Shape_PavilionBase"]
+size = Vector3(7.0, 0.6, 7.0)
+
+[sub_resource type="BoxMesh" id="Mesh_PavilionWall"]
+material = ExtResource("4_stone")
+size = Vector3(5.2, 3.2, 5.2)
+
+[sub_resource type="BoxShape3D" id="Shape_PavilionWall"]
+size = Vector3(5.2, 3.2, 5.2)
+
+[sub_resource type="PrismMesh" id="Mesh_PavilionLowerRoof"]
+material = ExtResource("3_roof")
+left_to_right = 0.5
+size = Vector3(8.2, 1.5, 8.2)
+
+[sub_resource type="PrismMesh" id="Mesh_PavilionUpperRoof"]
+material = ExtResource("3_roof")
+left_to_right = 0.5
+size = Vector3(6.4, 1.6, 6.4)
+
+[sub_resource type="BoxMesh" id="Mesh_MainRoad"]
+material = ExtResource("6_path")
+size = Vector3(4.5, 0.05, 36.0)
+
+[node name="VillageCelestial" type="Node3D"]
+
+[node name="EntranceGate" type="StaticBody3D" parent="."]
+position = Vector3(0, 0, 18)
+collision_mask = 0
+
+[node name="PillarLeft" type="MeshInstance3D" parent="EntranceGate"]
+position = Vector3(-3, 2.75, 0)
+mesh = SubResource("Mesh_GatePillar")
+
+[node name="CollisionLeft" type="CollisionShape3D" parent="EntranceGate"]
+position = Vector3(-3, 2.75, 0)
+shape = SubResource("Shape_GatePillar")
+
+[node name="PillarRight" type="MeshInstance3D" parent="EntranceGate"]
+position = Vector3(3, 2.75, 0)
+mesh = SubResource("Mesh_GatePillar")
+
+[node name="CollisionRight" type="CollisionShape3D" parent="EntranceGate"]
+position = Vector3(3, 2.75, 0)
+shape = SubResource("Shape_GatePillar")
+
+[node name="CrossBeam" type="MeshInstance3D" parent="EntranceGate"]
+position = Vector3(0, 4.8, 0)
+mesh = SubResource("Mesh_GateBeam")
+
+[node name="Roof" type="MeshInstance3D" parent="EntranceGate"]
+position = Vector3(0, 6.1, 0)
+mesh = SubResource("Mesh_GateRoof")
+
+[node name="CentralArea" type="Node3D" parent="."]
+
+[node name="Plaza" type="StaticBody3D" parent="CentralArea"]
+position = Vector3(0, 0.1, 0)
+collision_mask = 0
+
+[node name="MeshFloor" type="MeshInstance3D" parent="CentralArea/Plaza"]
+mesh = SubResource("Mesh_PlazaFloor")
+
+[node name="MeshJadeRing" type="MeshInstance3D" parent="CentralArea/Plaza"]
+position = Vector3(0, 0.11, 0)
+mesh = SubResource("Mesh_PlazaJadeRing")
+
+[node name="Collision" type="CollisionShape3D" parent="CentralArea/Plaza"]
+shape = SubResource("Shape_PlazaFloor")
+
+[node name="CelestialAltar" type="StaticBody3D" parent="CentralArea"]
+position = Vector3(0, 0.2, 0)
+collision_mask = 0
+
+[node name="Base" type="MeshInstance3D" parent="CentralArea/CelestialAltar"]
+position = Vector3(0, 0.3, 0)
+mesh = SubResource("Mesh_AltarBase")
+
+[node name="BaseCollision" type="CollisionShape3D" parent="CentralArea/CelestialAltar"]
+position = Vector3(0, 0.3, 0)
+shape = SubResource("Shape_AltarBase")
+
+[node name="DingVessel" type="MeshInstance3D" parent="CentralArea/CelestialAltar"]
+position = Vector3(0, 1.3, 0)
+mesh = SubResource("Mesh_DingVessel")
+
+[node name="DingCollision" type="CollisionShape3D" parent="CentralArea/CelestialAltar"]
+position = Vector3(0, 1.3, 0)
+shape = SubResource("Shape_DingVessel")
+
+[node name="FutureNPCs" type="Node3D" parent="CentralArea"]
+
+[node name="NPC_Elder_Spot" type="Marker3D" parent="CentralArea/FutureNPCs"]
+position = Vector3(0, 0.2, -4.5)
+
+[node name="NPC_Alchemist_Spot" type="Marker3D" parent="CentralArea/FutureNPCs"]
+position = Vector3(-5.5, 0.2, 0)
+
+[node name="NPC_Artisan_Spot" type="Marker3D" parent="CentralArea/FutureNPCs"]
+position = Vector3(5.5, 0.2, 0)
+
+[node name="NPC_Gatekeeper_Spot" type="Marker3D" parent="CentralArea/FutureNPCs"]
+position = Vector3(0, 0.2, 14)
+
+[node name="Buildings" type="Node3D" parent="."]
+
+[node name="Pavilion_Elder" type="StaticBody3D" parent="Buildings"]
+position = Vector3(-14, 0, -6)
+rotation = Vector3(0, 0.4, 0)
+collision_mask = 0
+
+[node name="Base" type="MeshInstance3D" parent="Buildings/Pavilion_Elder"]
+position = Vector3(0, 0.3, 0)
+mesh = SubResource("Mesh_PavilionBase")
+
+[node name="BaseCollision" type="CollisionShape3D" parent="Buildings/Pavilion_Elder"]
+position = Vector3(0, 0.3, 0)
+shape = SubResource("Shape_PavilionBase")
+
+[node name="Walls" type="MeshInstance3D" parent="Buildings/Pavilion_Elder"]
+position = Vector3(0, 2.2, 0)
+mesh = SubResource("Mesh_PavilionWall")
+
+[node name="WallCollision" type="CollisionShape3D" parent="Buildings/Pavilion_Elder"]
+position = Vector3(0, 2.2, 0)
+shape = SubResource("Shape_PavilionWall")
+
+[node name="LowerRoof" type="MeshInstance3D" parent="Buildings/Pavilion_Elder"]
+position = Vector3(0, 4.3, 0)
+mesh = SubResource("Mesh_PavilionLowerRoof")
+
+[node name="UpperRoof" type="MeshInstance3D" parent="Buildings/Pavilion_Elder"]
+position = Vector3(0, 5.5, 0)
+mesh = SubResource("Mesh_PavilionUpperRoof")
+
+[node name="Pavilion_Alchemist" type="StaticBody3D" parent="Buildings"]
+position = Vector3(-14, 0, 8)
+rotation = Vector3(0, -0.35, 0)
+collision_mask = 0
+
+[node name="Base" type="MeshInstance3D" parent="Buildings/Pavilion_Alchemist"]
+position = Vector3(0, 0.3, 0)
+mesh = SubResource("Mesh_PavilionBase")
+
+[node name="BaseCollision" type="CollisionShape3D" parent="Buildings/Pavilion_Alchemist"]
+position = Vector3(0, 0.3, 0)
+shape = SubResource("Shape_PavilionBase")
+
+[node name="Walls" type="MeshInstance3D" parent="Buildings/Pavilion_Alchemist"]
+position = Vector3(0, 2.2, 0)
+mesh = SubResource("Mesh_PavilionWall")
+
+[node name="WallCollision" type="CollisionShape3D" parent="Buildings/Pavilion_Alchemist"]
+position = Vector3(0, 2.2, 0)
+shape = SubResource("Shape_PavilionWall")
+
+[node name="LowerRoof" type="MeshInstance3D" parent="Buildings/Pavilion_Alchemist"]
+position = Vector3(0, 4.3, 0)
+mesh = SubResource("Mesh_PavilionLowerRoof")
+
+[node name="UpperRoof" type="MeshInstance3D" parent="Buildings/Pavilion_Alchemist"]
+position = Vector3(0, 5.5, 0)
+mesh = SubResource("Mesh_PavilionUpperRoof")
+
+[node name="Pavilion_TeaHouse" type="StaticBody3D" parent="Buildings"]
+position = Vector3(14, 0, -6)
+rotation = Vector3(0, -0.4, 0)
+collision_mask = 0
+
+[node name="Base" type="MeshInstance3D" parent="Buildings/Pavilion_TeaHouse"]
+position = Vector3(0, 0.3, 0)
+mesh = SubResource("Mesh_PavilionBase")
+
+[node name="BaseCollision" type="CollisionShape3D" parent="Buildings/Pavilion_TeaHouse"]
+position = Vector3(0, 0.3, 0)
+shape = SubResource("Shape_PavilionBase")
+
+[node name="Walls" type="MeshInstance3D" parent="Buildings/Pavilion_TeaHouse"]
+position = Vector3(0, 2.2, 0)
+mesh = SubResource("Mesh_PavilionWall")
+
+[node name="WallCollision" type="CollisionShape3D" parent="Buildings/Pavilion_TeaHouse"]
+position = Vector3(0, 2.2, 0)
+shape = SubResource("Shape_PavilionWall")
+
+[node name="LowerRoof" type="MeshInstance3D" parent="Buildings/Pavilion_TeaHouse"]
+position = Vector3(0, 4.3, 0)
+mesh = SubResource("Mesh_PavilionLowerRoof")
+
+[node name="UpperRoof" type="MeshInstance3D" parent="Buildings/Pavilion_TeaHouse"]
+position = Vector3(0, 5.5, 0)
+mesh = SubResource("Mesh_PavilionUpperRoof")
+
+[node name="Pavilion_Armory" type="StaticBody3D" parent="Buildings"]
+position = Vector3(14, 0, 8)
+rotation = Vector3(0, 0.35, 0)
+collision_mask = 0
+
+[node name="Base" type="MeshInstance3D" parent="Buildings/Pavilion_Armory"]
+position = Vector3(0, 0.3, 0)
+mesh = SubResource("Mesh_PavilionBase")
+
+[node name="BaseCollision" type="CollisionShape3D" parent="Buildings/Pavilion_Armory"]
+position = Vector3(0, 0.3, 0)
+shape = SubResource("Shape_PavilionBase")
+
+[node name="Walls" type="MeshInstance3D" parent="Buildings/Pavilion_Armory"]
+position = Vector3(0, 2.2, 0)
+mesh = SubResource("Mesh_PavilionWall")
+
+[node name="WallCollision" type="CollisionShape3D" parent="Buildings/Pavilion_Armory"]
+position = Vector3(0, 2.2, 0)
+shape = SubResource("Shape_PavilionWall")
+
+[node name="LowerRoof" type="MeshInstance3D" parent="Buildings/Pavilion_Armory"]
+position = Vector3(0, 4.3, 0)
+mesh = SubResource("Mesh_PavilionLowerRoof")
+
+[node name="UpperRoof" type="MeshInstance3D" parent="Buildings/Pavilion_Armory"]
+position = Vector3(0, 5.5, 0)
+mesh = SubResource("Mesh_PavilionUpperRoof")
+
+[node name="Roads" type="Node3D" parent="."]
+
+[node name="MainAvenue" type="MeshInstance3D" parent="Roads"]
+position = Vector3(0, 0.02, 0)
+mesh = SubResource("Mesh_MainRoad")

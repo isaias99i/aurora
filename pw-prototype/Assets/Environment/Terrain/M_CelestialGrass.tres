@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3]
+
+[resource]
+resource_name = "M_CelestialGrass"
+albedo_color = Color(0.26, 0.52, 0.28, 1)
+roughness = 0.95

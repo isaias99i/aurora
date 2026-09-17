@@ -1,0 +1,286 @@
+[gd_scene load_steps=24 format=3]
+
+[ext_resource type="Material" path="res://Assets/Environment/Vegetation/M_OldTrunk.tres" id="1_trunk"]
+[ext_resource type="Material" path="res://Assets/Environment/Vegetation/M_CherryBlossom.tres" id="2_sakura"]
+[ext_resource type="Material" path="res://Assets/Environment/Vegetation/M_JadePine.tres" id="3_pine"]
+[ext_resource type="Material" path="res://Assets/Environment/Terrain/M_KarstRock.tres" id="4_rock"]
+[ext_resource type="Material" path="res://Assets/Environment/Terrain/M_CrystalWater.tres" id="5_water"]
+[ext_resource type="Material" path="res://Assets/Environment/Terrain/M_StonePath.tres" id="6_path"]
+
+[sub_resource type="CylinderMesh" id="Mesh_Trunk"]
+material = ExtResource("1_trunk")
+top_radius = 0.35
+bottom_radius = 0.55
+height = 4.5
+
+[sub_resource type="CylinderShape3D" id="Shape_Trunk"]
+height = 4.5
+radius = 0.55
+
+[sub_resource type="SphereMesh" id="Mesh_SakuraCanopy"]
+material = ExtResource("2_sakura")
+radius = 2.4
+height = 3.6
+
+[sub_resource type="CylinderMesh" id="Mesh_PineCanopyLower"]
+material = ExtResource("3_pine")
+top_radius = 0.8
+bottom_radius = 2.6
+height = 1.2
+
+[sub_resource type="CylinderMesh" id="Mesh_PineCanopyMid"]
+material = ExtResource("3_pine")
+top_radius = 0.5
+bottom_radius = 2.0
+height = 1.0
+
+[sub_resource type="CylinderMesh" id="Mesh_PineCanopyTop"]
+material = ExtResource("3_pine")
+top_radius = 0.1
+bottom_radius = 1.4
+height = 1.0
+
+[sub_resource type="CylinderMesh" id="Mesh_KarstPillar"]
+material = ExtResource("4_rock")
+top_radius = 1.0
+bottom_radius = 1.6
+height = 8.0
+radial_segments = 8
+
+[sub_resource type="CylinderShape3D" id="Shape_KarstPillar"]
+height = 8.0
+radius = 1.6
+
+[sub_resource type="SphereMesh" id="Mesh_MeditationBoulder"]
+material = ExtResource("4_rock")
+radius = 1.4
+height = 1.8
+
+[sub_resource type="SphereShape3D" id="Shape_MeditationBoulder"]
+radius = 1.4
+
+[sub_resource type="CylinderMesh" id="Mesh_PondWater"]
+material = ExtResource("5_water")
+top_radius = 6.0
+bottom_radius = 6.0
+height = 0.1
+
+[sub_resource type="TorusMesh" id="Mesh_PondRim"]
+material = ExtResource("4_rock")
+inner_radius = 5.6
+outer_radius = 6.4
+rings = 16
+ring_segments = 8
+
+[sub_resource type="BoxMesh" id="Mesh_ForestTrail1"]
+material = ExtResource("6_path")
+size = Vector3(3.2, 0.04, 20.0)
+
+[sub_resource type="BoxMesh" id="Mesh_ForestTrail2"]
+material = ExtResource("6_path")
+size = Vector3(3.0, 0.04, 18.0)
+
+[node name="MysticForest" type="Node3D"]
+
+[node name="Trees" type="Node3D" parent="."]
+
+[node name="Sakura_1" type="StaticBody3D" parent="Trees"]
+position = Vector3(-8, 0, 8)
+collision_mask = 0
+
+[node name="Trunk" type="MeshInstance3D" parent="Trees/Sakura_1"]
+position = Vector3(0, 2.25, 0)
+mesh = SubResource("Mesh_Trunk")
+
+[node name="Collision" type="CollisionShape3D" parent="Trees/Sakura_1"]
+position = Vector3(0, 2.25, 0)
+shape = SubResource("Shape_Trunk")
+
+[node name="Canopy" type="MeshInstance3D" parent="Trees/Sakura_1"]
+position = Vector3(0, 4.6, 0)
+mesh = SubResource("Mesh_SakuraCanopy")
+
+[node name="Sakura_2" type="StaticBody3D" parent="Trees"]
+position = Vector3(9, 0, 7)
+collision_mask = 0
+
+[node name="Trunk" type="MeshInstance3D" parent="Trees/Sakura_2"]
+position = Vector3(0, 2.25, 0)
+mesh = SubResource("Mesh_Trunk")
+
+[node name="Collision" type="CollisionShape3D" parent="Trees/Sakura_2"]
+position = Vector3(0, 2.25, 0)
+shape = SubResource("Shape_Trunk")
+
+[node name="Canopy" type="MeshInstance3D" parent="Trees/Sakura_2"]
+position = Vector3(0, 4.6, 0)
+mesh = SubResource("Mesh_SakuraCanopy")
+
+[node name="Sakura_3" type="StaticBody3D" parent="Trees"]
+position = Vector3(-14, 0, -4)
+collision_mask = 0
+
+[node name="Trunk" type="MeshInstance3D" parent="Trees/Sakura_3"]
+position = Vector3(0, 2.25, 0)
+mesh = SubResource("Mesh_Trunk")
+
+[node name="Collision" type="CollisionShape3D" parent="Trees/Sakura_3"]
+position = Vector3(0, 2.25, 0)
+shape = SubResource("Shape_Trunk")
+
+[node name="Canopy" type="MeshInstance3D" parent="Trees/Sakura_3"]
+position = Vector3(0, 4.6, 0)
+mesh = SubResource("Mesh_SakuraCanopy")
+
+[node name="Pine_1" type="StaticBody3D" parent="Trees"]
+position = Vector3(14, 0, -2)
+collision_mask = 0
+
+[node name="Trunk" type="MeshInstance3D" parent="Trees/Pine_1"]
+position = Vector3(0, 2.25, 0)
+mesh = SubResource("Mesh_Trunk")
+
+[node name="Collision" type="CollisionShape3D" parent="Trees/Pine_1"]
+position = Vector3(0, 2.25, 0)
+shape = SubResource("Shape_Trunk")
+
+[node name="CanopyLower" type="MeshInstance3D" parent="Trees/Pine_1"]
+position = Vector3(0, 3.6, 0)
+mesh = SubResource("Mesh_PineCanopyLower")
+
+[node name="CanopyMid" type="MeshInstance3D" parent="Trees/Pine_1"]
+position = Vector3(0, 4.5, 0)
+mesh = SubResource("Mesh_PineCanopyMid")
+
+[node name="CanopyTop" type="MeshInstance3D" parent="Trees/Pine_1"]
+position = Vector3(0, 5.3, 0)
+mesh = SubResource("Mesh_PineCanopyTop")
+
+[node name="Pine_2" type="StaticBody3D" parent="Trees"]
+position = Vector3(-6, 0, -14)
+collision_mask = 0
+
+[node name="Trunk" type="MeshInstance3D" parent="Trees/Pine_2"]
+position = Vector3(0, 2.25, 0)
+mesh = SubResource("Mesh_Trunk")
+
+[node name="Collision" type="CollisionShape3D" parent="Trees/Pine_2"]
+position = Vector3(0, 2.25, 0)
+shape = SubResource("Shape_Trunk")
+
+[node name="CanopyLower" type="MeshInstance3D" parent="Trees/Pine_2"]
+position = Vector3(0, 3.6, 0)
+mesh = SubResource("Mesh_PineCanopyLower")
+
+[node name="CanopyMid" type="MeshInstance3D" parent="Trees/Pine_2"]
+position = Vector3(0, 4.5, 0)
+mesh = SubResource("Mesh_PineCanopyMid")
+
+[node name="CanopyTop" type="MeshInstance3D" parent="Trees/Pine_2"]
+position = Vector3(0, 5.3, 0)
+mesh = SubResource("Mesh_PineCanopyTop")
+
+[node name="Pine_3" type="StaticBody3D" parent="Trees"]
+position = Vector3(10, 0, -16)
+collision_mask = 0
+
+[node name="Trunk" type="MeshInstance3D" parent="Trees/Pine_3"]
+position = Vector3(0, 2.25, 0)
+mesh = SubResource("Mesh_Trunk")
+
+[node name="Collision" type="CollisionShape3D" parent="Trees/Pine_3"]
+position = Vector3(0, 2.25, 0)
+shape = SubResource("Shape_Trunk")
+
+[node name="CanopyLower" type="MeshInstance3D" parent="Trees/Pine_3"]
+position = Vector3(0, 3.6, 0)
+mesh = SubResource("Mesh_PineCanopyLower")
+
+[node name="CanopyMid" type="MeshInstance3D" parent="Trees/Pine_3"]
+position = Vector3(0, 4.5, 0)
+mesh = SubResource("Mesh_PineCanopyMid")
+
+[node name="CanopyTop" type="MeshInstance3D" parent="Trees/Pine_3"]
+position = Vector3(0, 5.3, 0)
+mesh = SubResource("Mesh_PineCanopyTop")
+
+[node name="Rocks" type="Node3D" parent="."]
+
+[node name="KarstPillar_1" type="StaticBody3D" parent="Rocks"]
+position = Vector3(-12, 0, -10)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="Rocks/KarstPillar_1"]
+position = Vector3(0, 4.0, 0)
+mesh = SubResource("Mesh_KarstPillar")
+
+[node name="Collision" type="CollisionShape3D" parent="Rocks/KarstPillar_1"]
+position = Vector3(0, 4.0, 0)
+shape = SubResource("Shape_KarstPillar")
+
+[node name="KarstPillar_2" type="StaticBody3D" parent="Rocks"]
+position = Vector3(16, 0, -9)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="Rocks/KarstPillar_2"]
+position = Vector3(0, 4.0, 0)
+mesh = SubResource("Mesh_KarstPillar")
+
+[node name="Collision" type="CollisionShape3D" parent="Rocks/KarstPillar_2"]
+position = Vector3(0, 4.0, 0)
+shape = SubResource("Shape_KarstPillar")
+
+[node name="Boulder_1" type="StaticBody3D" parent="Rocks"]
+position = Vector3(-4, 0.6, 2)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="Rocks/Boulder_1"]
+mesh = SubResource("Mesh_MeditationBoulder")
+
+[node name="Collision" type="CollisionShape3D" parent="Rocks/Boulder_1"]
+shape = SubResource("Shape_MeditationBoulder")
+
+[node name="Boulder_2" type="StaticBody3D" parent="Rocks"]
+position = Vector3(6, 0.6, 1)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="Rocks/Boulder_2"]
+mesh = SubResource("Mesh_MeditationBoulder")
+
+[node name="Collision" type="CollisionShape3D" parent="Rocks/Boulder_2"]
+shape = SubResource("Shape_MeditationBoulder")
+
+[node name="MysticPond" type="Node3D" parent="."]
+position = Vector3(0, 0.05, -7)
+
+[node name="WaterMesh" type="MeshInstance3D" parent="MysticPond"]
+mesh = SubResource("Mesh_PondWater")
+
+[node name="RimMesh" type="MeshInstance3D" parent="MysticPond"]
+position = Vector3(0, 0.08, 0)
+mesh = SubResource("Mesh_PondRim")
+
+[node name="Paths" type="Node3D" parent="."]
+
+[node name="Trail_1" type="MeshInstance3D" parent="Paths"]
+position = Vector3(0, 0.02, 2)
+mesh = SubResource("Mesh_ForestTrail1")
+
+[node name="Trail_2" type="MeshInstance3D" parent="Paths"]
+position = Vector3(1, 0.02, -16)
+rotation = Vector3(0, -0.25, 0)
+mesh = SubResource("Mesh_ForestTrail2")
+
+[node name="FutureEnemies" type="Node3D" parent="."]
+
+[node name="Mob_CelestialBeast_1" type="Marker3D" parent="FutureEnemies"]
+position = Vector3(-8, 0.2, -6)
+
+[node name="Mob_CelestialBeast_2" type="Marker3D" parent="FutureEnemies"]
+position = Vector3(8, 0.2, -7)
+
+[node name="Mob_SpiritualFox_1" type="Marker3D" parent="FutureEnemies"]
+position = Vector3(0, 0.2, -22)
+
+[node name="Mob_SpiritualFox_2" type="Marker3D" parent="FutureEnemies"]
+position = Vector3(-10, 0.2, -20)

@@ -1,17 +1,23 @@
-[gd_scene load_steps=24 format=3]
+[gd_scene load_steps=36 format=3]
 
-[ext_resource type="PackedScene" path="res://Scenes/World/VillageAurora.tscn" id="1_village"]
-[ext_resource type="PackedScene" path="res://Scenes/World/ForestDark.tscn" id="2_forest"]
+[ext_resource type="PackedScene" path="res://Scenes/World/VillageCelestial.tscn" id="1_village"]
+[ext_resource type="PackedScene" path="res://Scenes/World/MysticForest.tscn" id="2_forest"]
 [ext_resource type="PackedScene" path="res://Player.tscn" id="3_player"]
-[ext_resource type="Material" path="res://Assets/Environment/Terrain/M_Grass.tres" id="4_grass"]
-[ext_resource type="Material" path="res://Assets/Environment/Terrain/M_DirtRoad.tres" id="5_road"]
-[ext_resource type="Material" path="res://Assets/Environment/Terrain/M_Rock.tres" id="6_rock"]
+[ext_resource type="Material" path="res://Assets/Environment/Terrain/M_CelestialGrass.tres" id="4_grass"]
+[ext_resource type="Material" path="res://Assets/Environment/Terrain/M_KarstRock.tres" id="5_rock"]
+[ext_resource type="Material" path="res://Assets/Environment/Terrain/M_StonePath.tres" id="6_path"]
+[ext_resource type="Material" path="res://Assets/Environment/Terrain/M_CrystalWater.tres" id="7_water"]
+[ext_resource type="Material" path="res://Assets/Environment/Buildings/M_StonePlatform.tres" id="8_stone"]
+[ext_resource type="Material" path="res://Assets/Environment/Buildings/M_VermilionWood.tres" id="9_vermilion"]
+[ext_resource type="Material" path="res://Assets/Environment/Buildings/M_OrientalRoof.tres" id="10_roof"]
+[ext_resource type="Material" path="res://Assets/Environment/Buildings/M_DarkTimber.tres" id="11_timber"]
+[ext_resource type="Material" path="res://Assets/Environment/Buildings/M_Jade.tres" id="12_jade"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_world"]
-sky_top_color = Color(0.24, 0.45, 0.72, 1)
-sky_horizon_color = Color(0.76, 0.84, 0.9, 1)
-ground_bottom_color = Color(0.16, 0.2, 0.22, 1)
-ground_horizon_color = Color(0.76, 0.84, 0.9, 1)
+sky_top_color = Color(0.28, 0.48, 0.78, 1)
+sky_horizon_color = Color(0.88, 0.78, 0.68, 1)
+ground_bottom_color = Color(0.2, 0.25, 0.22, 1)
+ground_horizon_color = Color(0.88, 0.78, 0.68, 1)
 
 [sub_resource type="Sky" id="Sky_world"]
 sky_material = SubResource("ProceduralSkyMaterial_world")
@@ -20,154 +26,333 @@ sky_material = SubResource("ProceduralSkyMaterial_world")
 background_mode = 2
 sky = SubResource("Sky_world")
 ambient_light_source = 3
-ambient_light_energy = 0.85
+ambient_light_energy = 0.9
 tonemap_mode = 2
 fog_enabled = true
-fog_light_color = Color(0.7, 0.8, 0.88, 1)
-fog_density = 0.005
-fog_sky_affect = 0.5
+fog_light_color = Color(0.78, 0.82, 0.88, 1)
+fog_density = 0.0035
+fog_sky_affect = 0.4
+fog_depth_begin = 20.0
+fog_depth_end = 180.0
 
-[sub_resource type="BoxMesh" id="Mesh_MainGround"]
+[sub_resource type="BoxMesh" id="Mesh_MainValley"]
 material = ExtResource("4_grass")
-size = Vector3(120, 1, 120)
+size = Vector3(160, 1, 160)
 
-[sub_resource type="BoxShape3D" id="Shape_MainGround"]
-size = Vector3(120, 1, 120)
+[sub_resource type="BoxShape3D" id="Shape_MainValley"]
+size = Vector3(160, 1, 160)
 
-[sub_resource type="BoxMesh" id="Mesh_ConnectingRoad"]
-material = ExtResource("5_road")
-size = Vector3(4.0, 0.04, 30.0)
+[sub_resource type="CylinderMesh" id="Mesh_GiantKarst"]
+material = ExtResource("5_rock")
+top_radius = 4.0
+bottom_radius = 9.0
+height = 36.0
+radial_segments = 8
 
-[sub_resource type="BoxMesh" id="Mesh_HillEast"]
-material = ExtResource("4_grass")
-size = Vector3(24, 1.6, 24)
+[sub_resource type="CylinderShape3D" id="Shape_GiantKarst"]
+height = 36.0
+radius = 9.0
 
-[sub_resource type="BoxShape3D" id="Shape_HillEast"]
-size = Vector3(24, 1.6, 24)
+[sub_resource type="BoxMesh" id="Mesh_MainAvenueToTemple"]
+material = ExtResource("6_path")
+size = Vector3(5.0, 0.04, 60.0)
 
-[sub_resource type="BoxMesh" id="Mesh_HillWest"]
-material = ExtResource("4_grass")
-size = Vector3(22, 1.4, 22)
+[sub_resource type="BoxMesh" id="Mesh_CrossPathToForestAndLake"]
+material = ExtResource("6_path")
+size = Vector3(75.0, 0.04, 4.0)
 
-[sub_resource type="BoxShape3D" id="Shape_HillWest"]
-size = Vector3(22, 1.4, 22)
+[sub_resource type="CylinderMesh" id="Mesh_LakeWater"]
+material = ExtResource("7_water")
+top_radius = 18.0
+bottom_radius = 18.0
+height = 0.15
 
-[sub_resource type="BoxMesh" id="Mesh_BorderNorthSouth"]
-material = ExtResource("6_rock")
-size = Vector3(125, 8, 6)
+[sub_resource type="TorusMesh" id="Mesh_LakeShore"]
+material = ExtResource("5_rock")
+inner_radius = 17.5
+outer_radius = 19.2
+rings = 24
+ring_segments = 8
 
-[sub_resource type="BoxShape3D" id="Shape_BorderNorthSouth"]
-size = Vector3(125, 8, 6)
+[sub_resource type="BoxMesh" id="Mesh_PierDeck"]
+material = ExtResource("8_stone")
+size = Vector3(6.0, 0.4, 8.0)
 
-[sub_resource type="BoxMesh" id="Mesh_BorderEastWest"]
-material = ExtResource("6_rock")
-size = Vector3(6, 8, 125)
+[sub_resource type="BoxShape3D" id="Shape_PierDeck"]
+size = Vector3(6.0, 0.4, 8.0)
 
-[sub_resource type="BoxShape3D" id="Shape_BorderEastWest"]
-size = Vector3(6, 8, 125)
+[sub_resource type="PrismMesh" id="Mesh_PierRoof"]
+material = ExtResource("10_roof")
+left_to_right = 0.5
+size = Vector3(7.2, 1.8, 9.2)
+
+[sub_resource type="BoxMesh" id="Mesh_TempleTerrace"]
+material = ExtResource("8_stone")
+size = Vector3(26.0, 2.0, 24.0)
+
+[sub_resource type="BoxShape3D" id="Shape_TempleTerrace"]
+size = Vector3(26.0, 2.0, 24.0)
+
+[sub_resource type="BoxMesh" id="Mesh_TempleStairs"]
+material = ExtResource("8_stone")
+size = Vector3(8.0, 1.0, 6.0)
+
+[sub_resource type="BoxShape3D" id="Shape_TempleStairs"]
+size = Vector3(8.0, 1.0, 6.0)
+
+[sub_resource type="BoxMesh" id="Mesh_TempleSanctuary"]
+material = ExtResource("11_timber")
+size = Vector3(14.0, 5.0, 12.0)
+
+[sub_resource type="BoxShape3D" id="Shape_TempleSanctuary"]
+size = Vector3(14.0, 5.0, 12.0)
+
+[sub_resource type="PrismMesh" id="Mesh_TempleLowerRoof"]
+material = ExtResource("10_roof")
+left_to_right = 0.5
+size = Vector3(19.0, 2.6, 17.0)
+
+[sub_resource type="PrismMesh" id="Mesh_TempleUpperRoof"]
+material = ExtResource("10_roof")
+left_to_right = 0.5
+size = Vector3(14.5, 2.8, 12.5)
+
+[sub_resource type="CylinderMesh" id="Mesh_TemplePillar"]
+material = ExtResource("9_vermilion")
+top_radius = 0.4
+bottom_radius = 0.45
+height = 5.0
+
+[sub_resource type="CylinderMesh" id="Mesh_TempleRelic"]
+material = ExtResource("12_jade")
+top_radius = 0.6
+bottom_radius = 0.8
+height = 2.2
 
 [node name="World" type="Node3D"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
 environment = SubResource("Environment_world")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.766044, -0.422618, 0.48481, 0, 0.75471, 0.656059, -0.642788, -0.50257, 0.578142, 0, 20, 0)
-light_color = Color(1, 0.95, 0.88, 1)
-light_energy = 1.3
+[node name="Lighting" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lighting"]
+transform = Transform3D(0.819152, -0.383022, 0.426744, 0, 0.743145, 0.669131, -0.573576, -0.548121, 0.608748, 0, 25, 0)
+light_color = Color(1, 0.94, 0.84, 1)
+light_energy = 1.35
 shadow_enabled = true
-directional_shadow_max_distance = 120.0
+directional_shadow_max_distance = 150.0
 
 [node name="Terrain" type="Node3D" parent="."]
 
-[node name="Ground" type="StaticBody3D" parent="Terrain"]
+[node name="ValleyGround" type="StaticBody3D" parent="Terrain"]
 position = Vector3(0, -0.5, 0)
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="Terrain/Ground"]
-mesh = SubResource("Mesh_MainGround")
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/ValleyGround"]
+mesh = SubResource("Mesh_MainValley")
 
-[node name="Collision" type="CollisionShape3D" parent="Terrain/Ground"]
-shape = SubResource("Shape_MainGround")
+[node name="Collision" type="CollisionShape3D" parent="Terrain/ValleyGround"]
+shape = SubResource("Shape_MainValley")
 
-[node name="FieldConnectingRoad" type="MeshInstance3D" parent="Terrain"]
-position = Vector3(0, 0.02, 0)
-mesh = SubResource("Mesh_ConnectingRoad")
+[node name="ValleyAvenue" type="MeshInstance3D" parent="Terrain"]
+position = Vector3(0, 0.02, -10)
+mesh = SubResource("Mesh_MainAvenueToTemple")
 
-[node name="Hills" type="Node3D" parent="Terrain"]
+[node name="CrossAvenue" type="MeshInstance3D" parent="Terrain"]
+position = Vector3(2, 0.02, 5)
+mesh = SubResource("Mesh_CrossPathToForestAndLake")
 
-[node name="Hill_East" type="StaticBody3D" parent="Terrain/Hills"]
-position = Vector3(32, 0.8, 5)
+[node name="KarstMountains" type="Node3D" parent="Terrain"]
+
+[node name="Karst_North1" type="StaticBody3D" parent="Terrain/KarstMountains"]
+position = Vector3(-25, 18, -75)
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="Terrain/Hills/Hill_East"]
-mesh = SubResource("Mesh_HillEast")
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/KarstMountains/Karst_North1"]
+mesh = SubResource("Mesh_GiantKarst")
 
-[node name="Collision" type="CollisionShape3D" parent="Terrain/Hills/Hill_East"]
-shape = SubResource("Shape_HillEast")
+[node name="Collision" type="CollisionShape3D" parent="Terrain/KarstMountains/Karst_North1"]
+shape = SubResource("Shape_GiantKarst")
 
-[node name="Hill_West" type="StaticBody3D" parent="Terrain/Hills"]
-position = Vector3(-32, 0.7, 0)
+[node name="Karst_North2" type="StaticBody3D" parent="Terrain/KarstMountains"]
+position = Vector3(25, 18, -75)
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="Terrain/Hills/Hill_West"]
-mesh = SubResource("Mesh_HillWest")
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/KarstMountains/Karst_North2"]
+mesh = SubResource("Mesh_GiantKarst")
 
-[node name="Collision" type="CollisionShape3D" parent="Terrain/Hills/Hill_West"]
-shape = SubResource("Shape_HillWest")
+[node name="Collision" type="CollisionShape3D" parent="Terrain/KarstMountains/Karst_North2"]
+shape = SubResource("Shape_GiantKarst")
 
-[node name="Borders" type="Node3D" parent="Terrain"]
-
-[node name="Cliffs_North" type="StaticBody3D" parent="Terrain/Borders"]
-position = Vector3(0, 4, -60)
+[node name="Karst_NorthEast" type="StaticBody3D" parent="Terrain/KarstMountains"]
+position = Vector3(65, 18, -55)
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="Terrain/Borders/Cliffs_North"]
-mesh = SubResource("Mesh_BorderNorthSouth")
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/KarstMountains/Karst_NorthEast"]
+mesh = SubResource("Mesh_GiantKarst")
 
-[node name="Collision" type="CollisionShape3D" parent="Terrain/Borders/Cliffs_North"]
-shape = SubResource("Shape_BorderNorthSouth")
+[node name="Collision" type="CollisionShape3D" parent="Terrain/KarstMountains/Karst_NorthEast"]
+shape = SubResource("Shape_GiantKarst")
 
-[node name="Cliffs_South" type="StaticBody3D" parent="Terrain/Borders"]
-position = Vector3(0, 4, 60)
+[node name="Karst_East" type="StaticBody3D" parent="Terrain/KarstMountains"]
+position = Vector3(75, 18, 5)
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="Terrain/Borders/Cliffs_South"]
-mesh = SubResource("Mesh_BorderNorthSouth")
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/KarstMountains/Karst_East"]
+mesh = SubResource("Mesh_GiantKarst")
 
-[node name="Collision" type="CollisionShape3D" parent="Terrain/Borders/Cliffs_South"]
-shape = SubResource("Shape_BorderNorthSouth")
+[node name="Collision" type="CollisionShape3D" parent="Terrain/KarstMountains/Karst_East"]
+shape = SubResource("Shape_GiantKarst")
 
-[node name="Cliffs_East" type="StaticBody3D" parent="Terrain/Borders"]
-position = Vector3(60, 4, 0)
+[node name="Karst_SouthEast" type="StaticBody3D" parent="Terrain/KarstMountains"]
+position = Vector3(65, 18, 65)
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="Terrain/Borders/Cliffs_East"]
-mesh = SubResource("Mesh_BorderEastWest")
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/KarstMountains/Karst_SouthEast"]
+mesh = SubResource("Mesh_GiantKarst")
 
-[node name="Collision" type="CollisionShape3D" parent="Terrain/Borders/Cliffs_East"]
-shape = SubResource("Shape_BorderEastWest")
+[node name="Collision" type="CollisionShape3D" parent="Terrain/KarstMountains/Karst_SouthEast"]
+shape = SubResource("Shape_GiantKarst")
 
-[node name="Cliffs_West" type="StaticBody3D" parent="Terrain/Borders"]
-position = Vector3(-60, 4, 0)
+[node name="Karst_South" type="StaticBody3D" parent="Terrain/KarstMountains"]
+position = Vector3(0, 18, 78)
 collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="Terrain/Borders/Cliffs_West"]
-mesh = SubResource("Mesh_BorderEastWest")
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/KarstMountains/Karst_South"]
+mesh = SubResource("Mesh_GiantKarst")
 
-[node name="Collision" type="CollisionShape3D" parent="Terrain/Borders/Cliffs_West"]
-shape = SubResource("Shape_BorderEastWest")
+[node name="Collision" type="CollisionShape3D" parent="Terrain/KarstMountains/Karst_South"]
+shape = SubResource("Shape_GiantKarst")
 
-[node name="Zones" type="Node3D" parent="."]
+[node name="Karst_SouthWest" type="StaticBody3D" parent="Terrain/KarstMountains"]
+position = Vector3(-65, 18, 65)
+collision_mask = 0
 
-[node name="VillageAurora" parent="Zones" instance=ExtResource("1_village")]
-position = Vector3(0, 0, 25)
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/KarstMountains/Karst_SouthWest"]
+mesh = SubResource("Mesh_GiantKarst")
 
-[node name="ForestDark" parent="Zones" instance=ExtResource("2_forest")]
-position = Vector3(0, 0, -25)
+[node name="Collision" type="CollisionShape3D" parent="Terrain/KarstMountains/Karst_SouthWest"]
+shape = SubResource("Shape_GiantKarst")
+
+[node name="Karst_West" type="StaticBody3D" parent="Terrain/KarstMountains"]
+position = Vector3(-75, 18, 5)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/KarstMountains/Karst_West"]
+mesh = SubResource("Mesh_GiantKarst")
+
+[node name="Collision" type="CollisionShape3D" parent="Terrain/KarstMountains/Karst_West"]
+shape = SubResource("Shape_GiantKarst")
+
+[node name="Karst_NorthWest" type="StaticBody3D" parent="Terrain/KarstMountains"]
+position = Vector3(-65, 18, -55)
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="Terrain/KarstMountains/Karst_NorthWest"]
+mesh = SubResource("Mesh_GiantKarst")
+
+[node name="Collision" type="CollisionShape3D" parent="Terrain/KarstMountains/Karst_NorthWest"]
+shape = SubResource("Shape_GiantKarst")
+
+[node name="VillageCelestial" parent="." instance=ExtResource("1_village")]
+position = Vector3(0, 0, 35)
+
+[node name="MysticForest" parent="." instance=ExtResource("2_forest")]
+position = Vector3(38, 0, -15)
+
+[node name="CrystalLake" type="Node3D" parent="."]
+position = Vector3(-35, 0, -10)
+
+[node name="Water" type="MeshInstance3D" parent="CrystalLake"]
+position = Vector3(0, 0.08, 0)
+mesh = SubResource("Mesh_LakeWater")
+
+[node name="Shore" type="MeshInstance3D" parent="CrystalLake"]
+position = Vector3(0, 0.12, 0)
+mesh = SubResource("Mesh_LakeShore")
+
+[node name="LakePier" type="StaticBody3D" parent="CrystalLake"]
+position = Vector3(12, 0.2, 0)
+collision_mask = 0
+
+[node name="DeckMesh" type="MeshInstance3D" parent="CrystalLake/LakePier"]
+mesh = SubResource("Mesh_PierDeck")
+
+[node name="DeckCollision" type="CollisionShape3D" parent="CrystalLake/LakePier"]
+shape = SubResource("Shape_PierDeck")
+
+[node name="RoofMesh" type="MeshInstance3D" parent="CrystalLake/LakePier"]
+position = Vector3(0, 3.2, 0)
+mesh = SubResource("Mesh_PierRoof")
+
+[node name="AncientTemple" type="Node3D" parent="."]
+position = Vector3(0, 0, -50)
+
+[node name="Terrace" type="StaticBody3D" parent="AncientTemple"]
+position = Vector3(0, 1.0, 0)
+collision_mask = 0
+
+[node name="TerraceMesh" type="MeshInstance3D" parent="AncientTemple/Terrace"]
+mesh = SubResource("Mesh_TempleTerrace")
+
+[node name="TerraceCollision" type="CollisionShape3D" parent="AncientTemple/Terrace"]
+shape = SubResource("Shape_TempleTerrace")
+
+[node name="Stairs" type="StaticBody3D" parent="AncientTemple"]
+position = Vector3(0, 0.5, 13.5)
+collision_mask = 0
+
+[node name="StairsMesh" type="MeshInstance3D" parent="AncientTemple/Stairs"]
+mesh = SubResource("Mesh_TempleStairs")
+
+[node name="StairsCollision" type="CollisionShape3D" parent="AncientTemple/Stairs"]
+shape = SubResource("Shape_TempleStairs")
+
+[node name="PagodaPavilion" type="StaticBody3D" parent="AncientTemple"]
+position = Vector3(0, 2.0, 0)
+collision_mask = 0
+
+[node name="SanctuaryWalls" type="MeshInstance3D" parent="AncientTemple/PagodaPavilion"]
+position = Vector3(0, 2.5, 0)
+mesh = SubResource("Mesh_TempleSanctuary")
+
+[node name="SanctuaryCollision" type="CollisionShape3D" parent="AncientTemple/PagodaPavilion"]
+position = Vector3(0, 2.5, 0)
+shape = SubResource("Shape_TempleSanctuary")
+
+[node name="LowerRoof" type="MeshInstance3D" parent="AncientTemple/PagodaPavilion"]
+position = Vector3(0, 5.8, 0)
+mesh = SubResource("Mesh_TempleLowerRoof")
+
+[node name="UpperRoof" type="MeshInstance3D" parent="AncientTemple/PagodaPavilion"]
+position = Vector3(0, 8.2, 0)
+mesh = SubResource("Mesh_TempleUpperRoof")
+
+[node name="PillarFrontLeft" type="MeshInstance3D" parent="AncientTemple/PagodaPavilion"]
+position = Vector3(-6.5, 2.5, 5.5)
+mesh = SubResource("Mesh_TemplePillar")
+
+[node name="PillarFrontRight" type="MeshInstance3D" parent="AncientTemple/PagodaPavilion"]
+position = Vector3(6.5, 2.5, 5.5)
+mesh = SubResource("Mesh_TemplePillar")
+
+[node name="PillarBackLeft" type="MeshInstance3D" parent="AncientTemple/PagodaPavilion"]
+position = Vector3(-6.5, 2.5, -5.5)
+mesh = SubResource("Mesh_TemplePillar")
+
+[node name="PillarBackRight" type="MeshInstance3D" parent="AncientTemple/PagodaPavilion"]
+position = Vector3(6.5, 2.5, -5.5)
+mesh = SubResource("Mesh_TemplePillar")
+
+[node name="CelestialRelic" type="MeshInstance3D" parent="AncientTemple/PagodaPavilion"]
+position = Vector3(0, 1.1, 0)
+mesh = SubResource("Mesh_TempleRelic")
 
 [node name="PlayerSpawn" type="Marker3D" parent="."]
-position = Vector3(0, 0.2, 33)
+position = Vector3(0, 0.2, 57)
 
 [node name="Player" parent="." instance=ExtResource("3_player")]
-position = Vector3(0, 0.2, 33)
+position = Vector3(0, 0.2, 57)
