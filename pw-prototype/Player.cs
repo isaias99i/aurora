@@ -17,12 +17,23 @@ public partial class Player : CharacterBody3D
 	[Export(PropertyHint.Range, "0.0001,0.02,0.0001")]
 	public float MouseSensitivity { get; set; } = 0.003f;
 
+	[Export(PropertyHint.Range, "1,20,0.5")]
+	public float MinCameraDistance { get; set; } = 2.0f;
+
+	[Export(PropertyHint.Range, "1,30,0.5")]
+	public float MaxCameraDistance { get; set; } = 12.0f;
+
+	[Export(PropertyHint.Range, "0.1,2,0.1")]
+	public float ZoomStep { get; set; } = 0.5f;
+
 	private const float VisualTurnSpeed = 12.0f;
+	private const float ZoomSmoothSpeed = 12.0f;
 	private Node3D _visual;
 	private Node3D _cameraPivot;
 	private SpringArm3D _springArm;
 	private float _cameraYaw;
 	private float _cameraPitch;
+	private float _targetZoom;
 
 	public override void _Ready()
 	{
@@ -31,6 +42,7 @@ public partial class Player : CharacterBody3D
 		_springArm = GetNode<SpringArm3D>("CameraPivot/SpringArm3D");
 		_cameraYaw = _cameraPivot.Rotation.Y;
 		_cameraPitch = _springArm.Rotation.X;
+		_targetZoom = _springArm.SpringLength;
 		_springArm.AddExcludedObject(GetRid());
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
@@ -50,6 +62,23 @@ public partial class Player : CharacterBody3D
 			Input.MouseMode = Input.MouseModeEnum.Captured;
 			GetViewport().SetInputAsHandled();
 			return;
+		}
+
+		if (@event is InputEventMouseButton mouseButton && mouseButton.Pressed)
+		{
+			if (mouseButton.ButtonIndex == MouseButton.WheelUp)
+			{
+				_targetZoom = Mathf.Clamp(_targetZoom - ZoomStep, MinCameraDistance, MaxCameraDistance);
+				GetViewport().SetInputAsHandled();
+				return;
+			}
+
+			if (mouseButton.ButtonIndex == MouseButton.WheelDown)
+			{
+				_targetZoom = Mathf.Clamp(_targetZoom + ZoomStep, MinCameraDistance, MaxCameraDistance);
+				GetViewport().SetInputAsHandled();
+				return;
+			}
 		}
 
 		if (@event is InputEventMouseMotion motion
@@ -102,6 +131,12 @@ public partial class Player : CharacterBody3D
 			_visual.Rotation = new Vector3(0.0f,
 				Mathf.LerpAngle(_visual.Rotation.Y, targetYaw,
 					1.0f - Mathf.Exp(-VisualTurnSpeed * step)), 0.0f);
+		}
+
+		if (!Mathf.IsEqualApprox(_springArm.SpringLength, _targetZoom))
+		{
+			_springArm.SpringLength = Mathf.Lerp(_springArm.SpringLength, _targetZoom,
+				1.0f - Mathf.Exp(-ZoomSmoothSpeed * step));
 		}
 	}
 

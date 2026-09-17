@@ -21,6 +21,7 @@ dotnet build PWPrototype.csproj
 | --- | --- |
 | W / A / S / D | Movimento relativo à orientação horizontal da câmera |
 | Mouse | Girar a câmera em torno do personagem |
+| Roda do Mouse | Zoom in / Zoom out da câmera (aproximar / afastar) |
 | Espaço | Pular quando estiver no chão |
 | Esc | Liberar o cursor e suspender os comandos de movimento |
 | Clique esquerdo | Capturar o cursor e retomar o controle |
@@ -37,8 +38,11 @@ Selecione o nó raiz de `Player.tscn` (ou a instância `Player` em `Main.tscn`):
 | Acceleration | 30 | Metros por segundo ao quadrado, para acelerar e frear |
 | Jump Velocity | 6 | Velocidade vertical inicial em metros por segundo |
 | Mouse Sensitivity | 0,003 | Radianos por pixel; valores menores tornam o mouse mais lento |
+| Min Camera Distance | 2 | Distância mínima do zoom da câmera (metros) |
+| Max Camera Distance | 12 | Distância máxima do zoom da câmera (metros) |
+| Zoom Step | 0,5 | Passo de incremento/decremento por clique do scroll |
 
-A gravidade usa **Project Settings → Physics → 3D → Default Gravity** (9,8 m/s²). A distância da câmera fica em `CameraPivot/SpringArm3D → Spring Length` (5 m). A inclinação vertical é limitada entre −65° e 35°. O marcador amarelo indica a frente da cápsula.
+A gravidade usa **Project Settings → Physics → 3D → Default Gravity** (9,8 m/s²). A inclinação vertical é limitada entre −65° e 35°. O marcador amarelo indica a frente da cápsula.
 
 ## Teste de aceite no editor
 
@@ -48,7 +52,7 @@ A gravidade usa **Project Settings → Physics → 3D → Default Gravity** (9,8
 4. Pressione **Espaço**, solte e pressione novamente durante o salto: deve haver apenas um pulo, seguido de queda e pouso. Mantenha Espaço pressionado ao pousar: não deve pular novamente sozinho.
 5. Caminhe contra paredes e blocos: o personagem deve ser bloqueado ou deslizar pela superfície, sem atravessá-la. Pule sobre os blocos menores para testar o pouso elevado.
 6. Suba e desça a rampa azul à direita: o personagem deve acompanhar a inclinação e permanecer apoiado quando parar.
-7. Perto de uma parede, gire a câmera para colocá-la entre a parede e o personagem: a câmera deve se aproximar, recuperando a distância ao sair do obstáculo. Mova o mouse bastante na vertical para verificar os limites de inclinação.
+7. Perto de uma parede, gire a câmera para colocá-la entre a parede e o personagem: a câmera deve se aproximar, recuperando a distância ao sair do obstáculo. Mova o mouse bastante na vertical para verificar os limites de inclinação. Use a roda do mouse para testar o zoom in/out suave (limitado entre 2m e 12m).
 8. Pressione **Esc**, mova o mouse e tente WASD: os comandos ficam suspensos. Clique para retomá-los. Alterne para outra janela e volte para verificar a liberação do cursor ao perder o foco.
 9. Pare com **F8**, ajuste **Speed** e **Mouse Sensitivity** no Inspector e execute novamente para comparar. Confira se o painel **Debugger** permanece sem erros.
 
