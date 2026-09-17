@@ -47,14 +47,11 @@ public partial class MovementComponent : Node
     /// </summary>
     public void Process(float delta)
     {
-        bool controlsActive = Input.MouseMode == Input.MouseModeEnum.Captured;
-        Vector2 input = controlsActive
-            ? Input.GetVector("MoveLeft", "MoveRight", "MoveForward", "MoveBackward")
-            : Vector2.Zero;
+        Vector2 input = Input.GetVector("MoveLeft", "MoveRight", "MoveForward", "MoveBackward");
 
         Vector3 direction = ComputeDirection(input);
         ApplyHorizontalVelocity(direction, delta);
-        ApplyVerticalVelocity(controlsActive, delta);
+        ApplyVerticalVelocity(delta);
 
         _body.MoveAndSlide();
         RotateVisual(direction, delta);
@@ -93,13 +90,13 @@ public partial class MovementComponent : Node
         _body.Velocity = velocity;
     }
 
-    private void ApplyVerticalVelocity(bool controlsActive, float delta)
+    private void ApplyVerticalVelocity(float delta)
     {
         Vector3 velocity = _body.Velocity;
 
         if (!_body.IsOnFloor())
             velocity += _body.GetGravity() * delta;
-        else if (controlsActive && Input.IsActionJustPressed("jump"))
+        else if (Input.IsActionJustPressed("jump"))
             velocity.Y = JumpVelocity;
         else
             velocity.Y = 0.0f;

@@ -81,21 +81,29 @@ public partial class CameraComponent : Node
             return;
         }
 
-        if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true }
-            && Input.MouseMode != Input.MouseModeEnum.Captured)
+        if (@event is InputEventMouseButton mouseBtn && mouseBtn.Pressed)
         {
-            Input.MouseMode = Input.MouseModeEnum.Captured;
-            GetViewport().SetInputAsHandled();
-            return;
+            if (mouseBtn.ButtonIndex == MouseButton.Left && Input.MouseMode != Input.MouseModeEnum.Captured)
+            {
+                Input.MouseMode = Input.MouseModeEnum.Captured;
+                GetViewport().SetInputAsHandled();
+                return;
+            }
         }
 
         if (TryHandleZoom(@event)) return;
 
-        if (@event is InputEventMouseMotion motion
-            && Input.MouseMode == Input.MouseModeEnum.Captured)
+        if (@event is InputEventMouseMotion motion)
         {
-            RotateCamera(motion.ScreenRelative);
-            GetViewport().SetInputAsHandled();
+            bool isCaptured = Input.MouseMode == Input.MouseModeEnum.Captured;
+            bool isDragging = Input.IsMouseButtonPressed(MouseButton.Right)
+                           || Input.IsMouseButtonPressed(MouseButton.Left);
+
+            if (isCaptured || isDragging)
+            {
+                RotateCamera(motion.ScreenRelative);
+                GetViewport().SetInputAsHandled();
+            }
         }
     }
 
